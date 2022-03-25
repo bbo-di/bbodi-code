@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="imagetoolbar" content="no">
+    <title>문자쏙</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="css/datepicker.css">
+    <script src="js/datepicker.js" type="text/javascript"></script>
+    <script src="js/datepicker.ko-KR.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jQuery/jquery-ui.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(function () {
+
+      //직접입력 인풋박스 기존에는 숨어있다가
+      $("#selboxDirect").hide();
+      $("#email_select").change(function () {//직접입력을 누를 때 나타남
+        if ($("#email_select").val() == "1") {
+          $("#selboxDirect").show();
+        } else {
+          $("#selboxDirect").hide();
+        }
+      })
+    });
+    function checkOnlyOne(element) {
+
+      const checkboxes
+        = document.getElementsByName("member");
+
+      checkboxes.forEach((cb) => {
+        cb.checked = false;
+      })
+
+      element.checked = true;
+    }
+
+    $(document).ready(function () {
+      searchPop(); //
+      gnb(); // GNB Menu
+      m_gnb(); // Mobile GNB Menu
+      titleResize(); // 콘텐츠 타이틀
+      lnbToggle(); // 토글메뉴
+      snsPop(); // SNS 링크
+      relateLink(); // 관련사이트
+      relateLinkH(); // 관련사이트 상단
+      floatingTop(); // 탑버튼
+      boardOver(); // boardOver
+
+      var winSize = $(window).height();
+      $(".scroll_wrap").css({ "height": winSize + "px" });
+
+      $(window).resize(function () {
+        titleResize(); // 콘텐츠 타이틀
+        var winSize = $(window).height();
+        $(".scroll_wrap").css({ "height": winSize + "px" });
+      });
+
+      $(".scroll_box_hor").mCustomScrollbar({
+        axis: "x",
+        advanced: { autoExpandHorizontalScroll: true }
+      });
+    });
+
+    function searchPop() {
+      $(".mob_search_btn").click(function (e) {
+        e.preventDefault();
+        $(this).toggleClass("ov");
+        $(".total_search").fadeToggle(200).next().fadeToggle(200);
+      });
+    }
+
+    // GNB Menu
+    function gnb() {
+      var param = $("#gnb>ul>li>a");
+      param.th2 = param.parent().find(">ul>li>a");
+      var bg = $("#header .bg");
+
+      var eqCnt = 0;
+      var liCnt = 0;
+      $("#gnb>ul>li").each(function (i) {
+        $(this).find(">ul>li").size();
+        if (liCnt < $(this).find(">ul>li").size()) {
+          liCnt = $(this).find(">ul>li").size(); eqCnt = i;
+        }
+      });
+
+      var gnbHei = param.parent().eq(eqCnt).find(">ul").innerHeight();
+      param.next().css({ "height": gnbHei + "px" });
+
+      function _close() {
+        param.removeClass("ov");
+        param.next().hide().stop().animate({ "opacity": 0 }, 0);
+        bg.stop().animate({ "height": 0 + "px", "padding-bottom": 0 + "px" }, 200, function () {
+          $(this).hide();
+        });
+      }
+
+      param.bind("mouseenter focus", function () {
+        param.removeClass("ov");
+        $(this).addClass("ov");
+        param.next().show().stop().animate({ "opacity": 1 }, 400);
+        bg.show().stop().animate({ "height": (gnbHei + 40) + "px" }, 100);
+      });
+
+      param.th2.bind("mouseenter focus", function () {
+        param.removeClass("ov");
+        $(this).parent().parent().prev().addClass("ov");
+      });
+
+      $(".gnb_wrap").bind("mouseleave", function () {
+        _close();
+      });
+
+      param.parent().last().find("ul>li").last().find(">a").bind("focusout", function () {
+        _close();
+      });
+
+      param.parent().each(function (e) {
+        $(this).addClass("num" + (e + 1));
+      });
+      $('.pw').focusout(function () {
+        var pwd1 = $("#password1").val();
+        var pwd2 = $("#password2").val();
+
+        if (pwd1 != '' && pwd2 == '') {
+          null;
+        } else if (pwd1 != "" || pwd2 != "") {
+          if (pwd1 == pwd2) {
+            $("#alert-success").css('display', 'inline-block');
+            $("#alert-danger").css('display', 'none');
+          } else {
+            alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+            $("#alert-success").css('display', 'none');
+            $("#alert-danger").css('display', 'inline-block');
+          }
+        }
+      });
+
+    }
+
+  </script>
+</head>
+
+<body>
+  <dl id="skiptoContent">
+    <dd><a href="#contents" class="accessibility01">본문 바로가기</a></dd>
+    <dd><a href="#gnb_wrap" class="accessibility01">주메뉴 바로가기</a></dd>
+    <dd><a href="#footer" class="accessibility01">하단메뉴 바로가기</a></dd>
+  </dl>
+  <div id="Wrap">
+    <div id="header" class="header">
+      <div class="head">
+        <h2 class="logo">문자쏙</h2>
+        <div class="gnb_wrap">
+          <div class="menu" id="gnb">
+            <ul class="gnb">
+              <li class="num1">
+                <a href="">문자발송</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num2">
+                <a href="">포토문자발송</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num3">
+                <a href="">문자샘플</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num4">
+                <a href="">대량주소록</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num5">
+                <a href="">발송/예약내역</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num6">
+                <a href="">결제내역</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+              <li class="num7">
+                <a href="">고객센터</a>
+                <ul>
+                  <li><a href="">단문문자</a></li>
+                  <li><a href="">장문문자</a></li>
+                  <li><a href="">포토문자</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg subbg"></div>
+        <a href="" class="out">나가기</a>
+      </div>
+    </div>
+  </div>
+  <div id="contents" class="joinwrap mb_350">
+    <div class="joinseq">
+      <ul>
+        <li class="joinico01">
+          <span>STEP 01</span>
+          <p>이용약관 동의</p>
+        </li>
+        <li class="joinico02">
+          <span>STEP 02</span>
+          <p>본인인증</p>
+        </li>
+        <li class="active joinico03">
+          <span>STEP 03</span>
+          <p>회원가입</p>
+        </li>
+        <li class="joinico04">
+          <span>STEP 04</span>
+          <p>가입완료</p>
+        </li>
+      </ul>
+    </div>
+    <form name="join" action="join-form-rady" method="post">
+      <div class="findbox">
+        <div class="findform">
+          <div class="name"><label for="cd2">회원구분</label><span class="ico3 icon">회원구분아이콘</span></div>
+          <div class="writ">
+            <div class="check3">
+              <input type="checkbox" id="ca1" name="member" value="1" onclick='checkOnlyOne(this)'>
+              <label for="ca1">
+                <span class="ft_20 font_5">개인회원</span>
+              </label>
+            </div>
+            <div class="check3 ml_10">
+              <input type="checkbox" id="ca2" name="member" value="2" onclick='checkOnlyOne(this)'>
+              <label for="ca2">
+                <span class="ft_20 font_5">기업회원</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="id1">아이디</label><span class="ico4 icon">아이디아이콘</span></div>
+          <div class="writ">
+            <input type="password" id="id1" name="number2" value="" maxlength="50" placeholder="아이디를 입력해주세요"
+              title="아이디입력" class="w_200">
+            <button type="button" class="btn03">아이디확인</button>
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="password1">비밀번호</label><span class="ico5 icon">비밀번호아이콘</span></div>
+          <div class="writ">
+            <input class="pw" type="password" id="password1" name="number2" value="" maxlength="50"
+              placeholder="문자, 숫자, 특수기호를 포함한 8~12자리 문자를 입력해주세요" title="비밀번호">
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="password2">비밀번호 확인</label><span class="ico5 icon">비밀번호확인아이콘</span></div>
+          <div class="writ">
+            <input class="pw" type="password" id="password2" name="number2" value="" maxlength="50"
+              placeholder="한번 더 입력해주세요" title="비밀번호확인">
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="ca5">이름</label><span class="ico4 icon">이름아이콘</span></div>
+          <div class="writ">
+            <p>홍길동</p>
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="ca6">핸드폰</label><span class="ico7 icon">핸드폰아이콘</span></div>
+          <div class="writ">
+            <p>010-1234-5678</p>
+          </div>
+        </div>
+        <div class="findform email">
+          <div class="name"><label for="email1">이메일</label><span class="ico8 icon">이메일아이콘</span></div>
+          <div class="writ">
+            <form name="email1" action="email1-form-rady" method="post">
+              <input name="email1" type="text" class="box" id="email1" size="15"><span> @</span>
+              <select name="email_select" class="box" id="email_select" style="width:180px;"
+                onChange="checkemailaddy();">
+                <option value="" selected>선택하세요</option>
+                <option value="naver.com">naver.com</option>
+                <option value="hotmail.com">hotmail.com</option>
+                <option value="hanmail.com">hanmail.com</option>
+                <option value="yahoo.co.kr">yahoo.co.kr</option>
+                <option value="1">직접입력</option>
+              </select>
+              <input type="text" class="selboxDirect" id="selboxDirect" name="selboxDirect" />
+            </form>
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="ca7">추천인(아이디)</label><span class="ico9 icon">추천인(아이디)아이콘</span></div>
+          <div class="writ">
+            <input type="text" id="ca7" name="number2" value="" maxlength="50" placeholder="추천인(혹은 아이디)룰 입력해주세요"
+              title="추천인(아이디)">
+          </div>
+        </div>
+      </div>
+    </form>
+    <form name="join" action="join-form-rady" method="post">
+      <div class="findbox">
+        <h3 class="w_200">기업회원</h3>
+        <div class="findform">
+          <div class="name"> <label for="ca8">기업명</label><span class="ico10 icon">기업명아이콘</span></div>
+          <div class="writ">
+            <input id="ca8" placeholder="사업자에 등록된 기업명을 입력해주세요" style="width:310px;">
+            <div class="check4">
+              <input type="checkbox" id="ca9">
+              <label for="ca9">
+                <span class="ft_20 font_5">선거회원(가입희망하실 경우만)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="ca10">대표자</label><span class="ico4 icon">추천인(아이디)아이콘</span></div>
+          <div class="writ">
+            <input type="text" id="ca10" name="number2" value="" maxlength="50" placeholder="이름을 입력해주세요" title="대표자">
+          </div>
+        </div>
+        <div class="findform">
+          <div class="name"><label for="ca11">사업자번호</label><span class="ico11 icon">사업자번호아이콘</span></div>
+          <div class="writ">
+            <input type="text" id="ca11" name="number2" value="" maxlength="50" placeholder="(-)을 생략하고 입력해주세요"
+              title="아이디입력">
+          </div>
+        </div>
+      </div>
+      <div class="joinbtn">
+        <button class="btn02 fl_left" type="button">회원가입</button>
+        <button class="btn02 ml_15 fl_left" type="button">취소하기</button>
+      </div>
+      <div class="clear"></div>
+  </form>
+  </div>
+  <footer id="footer" class="footer">
+    <div class="foot">
+      <div class="footleft">
+        <h3 class="logo">logo</h3>
+        <ul class="ftutil">
+          <li><a href="">이용약관</a></li>
+          <li><a href="">개인정보처리방침</a></li>
+          <li><a href="">이메일주소무단수집거부</a></li>
+        </ul>
+        <p>인천서구 북항로32번안길8 4층 404호</p>
+        <ul class="for">
+          <li>
+            <span class="line">TEL : 032-569-5907</span>
+            <span>FAX : 032-561-0470</span>
+          </li>
+          <li>
+            <span class="line">사업자등록번호 : 866-07-01577</span>
+            <span>통신판매번호 : 제20200-인천서구-0234호</span>
+          </li>
+          <li>
+            <span class="line">개인정보보호 책인자 : 조재민</span>
+            <span>대표이사 : 조재민</span>
+          </li>
+        </ul>
+      </div>
+      <div class="footright">
+        <a href="" class="kakao">카카오톡상담</a>
+        <ul>
+          <li><span class="txt">고객센터</span><span class="num cent">032-569-5907</span><span>[365일 연중무휴 24시간 상담가능]</span>
+          </li>
+          <li><span class="txt">은행정보</span><span class="num bankinf">1005-404-065661</span><span>우리은행/예금주 : 조재민</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

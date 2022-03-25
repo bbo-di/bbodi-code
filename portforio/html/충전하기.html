@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="imagetoolbar" content="no">
+      <title>문자쏙</title>
+      <link rel="stylesheet" href="css/layout.css">
+      <link rel="stylesheet" href="css/login.css">
+      <link rel="stylesheet" href="css/main.css">
+      <link rel="stylesheet" href="css/jquery-ui.css">
+      <link rel="stylesheet" href="css/common.css">
+      <link rel="stylesheet" href="css/content.css">
+      <link rel="stylesheet" href="css/datepicker.css">
+      <script src="js/datepicker.js" type="text/javascript"></script>
+      <script src="js/datepicker.ko-KR.js" type="text/javascript"></script>
+      <script src="http://code.jquery.com/jquery-latest.js"></script>
+      <script src="js/jQuery/jquery-ui.js" type="text/javascript"></script>
+      <script type="text/javascript">
+         $(function(){
+           
+             //직접입력 인풋박스 기존에는 숨어있다가
+             $("#selboxDirect").hide();
+             $("#email_select").change(function() {//직접입력을 누를 때 나타남
+             if($("#email_select").val() == "1") {
+             $("#selboxDirect").show();
+             }  else {
+             $("#selboxDirect").hide();
+             }
+           })
+         
+           //직접입력 인풋박스 기존에는 숨어있다가
+           $("#selboxDirect2").hide();
+             $("#email_select2").change(function() {//직접입력을 누를 때 나타남
+             if($("#email_select2").val() == "1") {
+             $("#selboxDirect2").show();
+             }  else {
+             $("#selboxDirect2").hide();
+             }
+           })
+         });
+         function checkOnlyOne(element) {
+           
+           const checkboxes 
+               = document.getElementsByName("member");
+           
+           checkboxes.forEach((cb) => {
+             cb.checked = false;
+           })
+           
+           element.checked = true;
+         }
+         function checkOnlyOne1(element) {
+           
+           const checkboxes 
+               = document.getElementsByName("docum");
+           
+           checkboxes.forEach((cb) => {
+             cb.checked = false;
+           })
+           
+           element.checked = true;
+         }
+         
+           $(document).ready(function() {
+           searchPop (); //
+           gnb (); // GNB Menu
+           m_gnb(); // Mobile GNB Menu
+           titleResize (); // 콘텐츠 타이틀
+           lnbToggle (); // 토글메뉴
+           snsPop (); // SNS 링크
+           relateLink(); // 관련사이트
+           relateLinkH(); // 관련사이트 상단
+           floatingTop (); // 탑버튼
+           boardOver (); // boardOver
+           
+           var winSize = $(window).height();
+           $(".scroll_wrap").css({"height":winSize+"px"});
+           
+           $(window).resize(function(){
+             titleResize (); // 콘텐츠 타이틀
+             var winSize = $(window).height();
+             $(".scroll_wrap").css({"height":winSize+"px"});
+           });	
+           
+           $(".scroll_box_hor").mCustomScrollbar({
+             axis:"x",
+             advanced:{autoExpandHorizontalScroll:true}
+           });
+         });
+         
+         function searchPop (){
+           $(".mob_search_btn").click(function(e){
+             e.preventDefault();
+             $(this).toggleClass("ov");
+             $(".total_search").fadeToggle(200).next().fadeToggle(200);	 
+           });
+         }
+         
+         // GNB Menu
+         function gnb (){
+           var param = $("#gnb>ul>li>a");
+           param.th2 = param.parent().find(">ul>li>a"); 
+           var bg = $("#header .bg");
+         
+           var eqCnt = 0;
+           var liCnt = 0;
+           $("#gnb>ul>li").each(function(i){
+             $(this).find(">ul>li").size();
+             if(liCnt < $(this).find(">ul>li").size()){
+               liCnt = $(this).find(">ul>li").size(); eqCnt = i;
+             }
+           });
+           
+           var gnbHei = param.parent().eq(eqCnt).find(">ul").innerHeight();
+           param.next().css({"height":gnbHei+"px"});
+           
+           function _close (){
+             param.removeClass("ov");
+             param.next().hide().stop().animate({"opacity":0},0);
+             bg.stop().animate({"height":0+"px","padding-bottom":0+"px"},200,function(){
+               $(this).hide();	
+             });	
+           }
+           
+           param.bind("mouseenter focus",function(){
+             param.removeClass("ov");
+             $(this).addClass("ov");	
+             param.next().show().stop().animate({"opacity":1},400);
+             bg.show().stop().animate({"height":(gnbHei+40)+"px"},100);
+           }); 
+           
+           param.th2.bind("mouseenter focus",function(){
+             param.removeClass("ov");
+             $(this).parent().parent().prev().addClass("ov");
+           });	
+           
+           $(".gnb_wrap").bind("mouseleave",function(){
+             _close ();
+           });	
+           
+           param.parent().last().find("ul>li").last().find(">a").bind("focusout",function(){
+             _close ();
+           });
+           
+           param.parent().each(function(e){
+             $(this).addClass("num"+(e+1));	
+           });
+           $('.pw').focusout(function () {
+                 var pwd1 = $("#password1").val();
+                 var pwd2 = $("#password2").val();
+          
+                 if ( pwd1 != '' && pwd2 == '' ) {
+                     null;
+                 } else if (pwd1 != "" || pwd2 != "") {
+                     if (pwd1 == pwd2) {
+                         $("#alert-success").css('display', 'inline-block');
+                         $("#alert-danger").css('display', 'none');
+                     } else {
+                         alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+                         $("#alert-success").css('display', 'none');
+                         $("#alert-danger").css('display', 'inline-block');
+                     }
+                 }
+             });
+           
+         }
+         
+      </script>
+   </head>
+   <body>
+    <dl id="skiptoContent">
+      <dd><a href="#contents" class="accessibility01">본문 바로가기</a></dd>
+      <dd><a href="#gnb_wrap" class="accessibility01">주메뉴 바로가기</a></dd>
+      <dd><a href="#footer" class="accessibility01">하단메뉴 바로가기</a></dd>
+    </dl>
+      <div id="Wrap">
+         <div id="header" class="header">
+            <div class="head">
+               <h2 class="logo">문자쏙</h2>
+               <div class="gnb_wrap">
+                  <div class="menu" id="gnb">
+                     <ul class="gnb">
+                        <li class="num1">
+                           <a href="">문자발송</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num2">
+                           <a href="">포토문자발송</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num3">
+                           <a href="">문자샘플</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num4">
+                           <a href="">대량주소록</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num5">
+                           <a href="">발송/예약내역</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num6">
+                           <a href="">결제내역</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num7">
+                           <a href="">고객센터</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="bg subbg"></div>
+               <a href="" class="out">나가기</a>
+            </div>
+         </div>
+      </div>
+      <div class="info_bar">
+         <div class="infowrap">
+            <!-- 로그아웃 -->
+            <div class="infologout" style="display: none;">
+               <span>로그인을 해주세요</span>
+               <a href="" class="loginbtn">LOGIN</a>
+            </div>
+            <!-- 로그인 -->
+            <div class="infologin">
+               <div class="myinfo">
+                  <p>일반</p>
+                  <span>조재민님</span>
+                  <a href="">마이페이지</a>
+               </div>
+               <div class="mycasy">
+                  <p>보유캐쉬 <em>9,343</em><span>CASH</span></p>
+                  <a href="" class="casyca">충전</a>
+                  <a href="" class="casybr">결제내역</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="navbar">
+         <div class="nav">
+            <ul>
+               <li><a href="" class="home">home</a></li>
+               <li><a href="">마이페이지</a></li>
+               <li class="drdown">
+                  <span>회원정보수정</span>
+                  <ul id="navsub" style="display:none;">
+                     <li><a href="">회원정보관리</a></li>
+                     <li><a href="">회원정보관리</a></li>
+                     <li><a href="">회원정보관리</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <div id="contents" class="joinwrap widthmax">
+         <h2>충전하기</h2>
+         <div class="warbox">
+            <div class="boxtable">
+               <p class="color01 right mb_5">판매가(VAT포함)</p>
+               <div class="clear"></div>
+               <form name='cashform' action="cash-form-rady" method="post">
+                  <div class="cashlist">
+                     <div class="check5 label_no">
+                        <input type="checkbox" id="cash01" name="member" value="1" onclick='checkOnlyOne(this)'>
+                        <label for="cash01">
+                        </label>
+                     </div>
+                     <dl>
+                     <dt><span>10,000 <em class="font_5">cash</em></span><span>11,000원</span></dt>
+                     <dd>단문 <em class="font_8">1,124</em>건  |   장문 <em class="font_8">402</em>건  |   포토 <em class="font_8">50</em>건</dd>
+                     </ol>
+                  </div>
+                  <div class="cashlist">
+                     <div class="check5 label_no">
+                        <input type="checkbox" id="cash02" name="member" value="2" onclick='checkOnlyOne(this)'>
+                        <label for="cash02">
+                        </label>
+                     </div>
+                     <dl>
+                     <dt><span>20,000 <em class="font_5">cash</em></span><span>22,000원</span></dt>
+                     <dd>단문 <em class="font_8">2,247</em>건  |   장문 <em class="font_8">402</em>건  |   포토 <em class="font_8">100</em>건</dd>
+                     </ol>
+                  </div>
+                  <div class="cashlist">
+                     <div class="check5 label_no">
+                        <input type="checkbox" id="cash03" name="member" value="3" onclick='checkOnlyOne(this)'>
+                        <label for="cash03">
+                        </label>
+                     </div>
+                     <dl>
+                     <dt><span>50,000 <em class="font_5">cash</em></span><span>55,000원</span></dt>
+                     <dd>단문 <em class="font_8">5,618</em>건  |   장문 <em class="font_8">2,008</em>건  |   포토 <em class="font_8">250</em>건</dd>
+                     </ol>
+                  </div>
+                  <div class="cashlist">
+                     <div class="check5 label_no">
+                        <input type="checkbox" id="cash04" name="member" value="4" onclick='checkOnlyOne(this)'>
+                        <label for="cash04">
+                        </label>
+                     </div>
+                     <dl>
+                     <dt><span>100,000 <em class="font_5">cash</em></span><span>11,000원</span></dt>
+                     <dd>단문 <em class="font_8">11,236</em>건  |   장문 <em class="font_8">4,016</em>건  |   포토 <em class="font_8">500</em>건</dd>
+                     </ol>
+                  </div>
+                  <div class="cashlist">
+                     <div class="check5 label_no">
+                        <input type="checkbox" id="cash05" name="member" value="5" onclick='checkOnlyOne(this)'>
+                        <label for="cash05">
+                        </label>
+                     </div>
+                     <dl>
+                     <dt><span>200,000 <em class="font_5">cash</em></span><span>220,000원</span></dt>
+                     <dd>단문 <em class="font_8">22,472</em>건  |   장문 <em class="font_8">8,032</em>건  |   포토 <em class="font_8">1,000</em>건</dd>
+                     </ol>
+                  </div>
+               </form>
+            </div>
+            <div class="boxtable mt_35">
+               <div class="cash_table_top">
+                  <form name="cashform" action="cashform-form-rady" method="post">
+                     <table class="tbl_board btl_receit">
+                        <caption> 회원명,연락처,이메일,결제수단,거래증빙서류 표</caption>
+                        <colgroup>
+                           <col width="25%">
+                           <col widht="auto">
+                        </colgroup>
+                        <tbody>
+                           <tr>
+                              <th><span class="remoico01"><label class="label" for="name">회원명</label></span></th>
+                              <td class="txt">조재민</td>
+                           </tr>
+                           <tr>
+                              <th><span class="remoico03"><label for="num1" class="label">연락처</label></span></th>
+                              <td>
+                                 <select class="numberbox" id="num1" name="type" title="첫번째번호">
+                                    <option>010</option>
+                                    <option>012</option>
+                                    <option>013</option>
+                                    <option>014</option>
+                                    <option>015</option>
+                                 </select>
+                                 <input type="text" id="num2" name="number2" value="" maxlength="50" title="두번째자리번호" class="form-control numberbox">
+                                 <input type="text" id="num3" name="number3" value="" maxlength="50" title="세번째자리번호" class="form-control numberbox">
+                              </td>
+                           </tr>
+                           <tr>
+                              <th><span class="remoico04"><label for="email1" class="label">이메일</label></span></th>
+                              <td >
+                                 <div class="email">
+                                    <input name="email1" type="text" class="box" id="email1" size="15"> @ 
+                                    <select style="width:150px;" name="email_select" class="box" id="email_select" onchange="checkemailaddy();">
+                                       <option value="" selected="">선택하세요</option>
+                                       <option value="naver.com">naver.com</option>
+                                       <option value="hotmail.com">hotmail.com</option>
+                                       <option value="hanmail.com">hanmail.com</option>
+                                       <option value="yahoo.co.kr">yahoo.co.kr</option>
+                                       <option value="1">직접입력</option>
+                                    </select>
+                                 </div>
+                                 <input type="text" class="email_selecbox" id="selboxDirect" name="selboxDirect" style="display: none;">
+                              </td>
+                           </tr>
+                           <tr>
+                              <th><span class="remoico13 th_top"><label for="email_select2" class="label">결제수단</label></span></th>
+                              <td class="pt_20 pb_20">
+                                 <div class="email">
+                                    <select style="margin-left:0; width:230px;" name="email_select2" class="box" id="email_select2" onChange="checkemailaddy();">
+                                       <option value="" selected>선택하세요</option>
+                                       <option value="1">무통장입금</option>
+                                       <option value="2">카드결제</option>
+                                       <option value="3">가상계좌</option>
+                                    </select>
+                                 </div>
+                                 <div id="selboxDirect2" class="coin">
+                                    <div class="email">
+                                       <select style="margin-left:0; width:100%;" name="email_select3" class="box" id="email_select3" onChange="checkemailaddy();">
+                                          <option value="" selected>선택하세요</option>
+                                          <option value="">입금계좌번호</option>
+                                          <option value="">입금계좌번호</option>
+                                          <option value="">입금계좌번호</option>
+                                       </select>
+                                    </div>
+                                    <div>
+                                       <label style="display: inline-block;
+                                          width: auto;" for="coin_name" class="pt_10">입금자</label>
+                                       <input type="text"id="coin_name" style="width:100px;" class="email_selecbox" name="selboxDirect2"/>
+                                    </div>
+                                 </div>
+                              </td>
+                           </tr>
+                           <tr>
+                              <th><span class="remoico14 th_top"><label for="checked" class="label">거래<br>증빙서류</label></span></th>
+                              <td>
+                                 <div class="check6">
+                                    <input type="checkbox" id="docu01" name="docum" value="1" onclick='checkOnlyOne1(this)'>
+                                    <label for="docu01">
+                                    <span>발행안함</span>
+                                    </label>
+                                 </div>
+                                 <div class="check6">
+                                    <input type="checkbox" id="docu02" name="docum" value="2" onclick='checkOnlyOne1(this)'>
+                                    <label for="docu02">
+                                    <span>현금영수증-소득공제용(개인) </span>
+                                    </label>
+                                 </div>
+                                 <div class="check6">
+                                    <input type="checkbox" id="docu03" name="docum" value="3" onclick='checkOnlyOne1(this)'>
+                                    <label for="docu03">
+                                    <span>현금영수증-지출증빙용(사업자)</span>
+                                    </label>
+                                 </div>
+                                 <div class="check6">
+                                    <input type="checkbox" id="docu04" name="docum" value="4" onclick='checkOnlyOne1(this)'>
+                                    <label for="docu04">
+                                    <span>세금계산서</span>
+                                    </label>
+                                 </div>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </form>
+               </div>
+               <div class="cash_bottom">
+                  <h2 class="final_tit">최종결제금액</h2>
+                  <div>
+                     <p>10,000<em>cash</em></p>
+                     <P>11,000(VAT포함)</P>
+                  </div>
+               </div>
+               <div class="clear"></div>
+               <div class="joinbtn mt_50"><button type="button" class="btn02 mt_10 mr_10">결제하기</button></div>
+               <div class="clear"></div>
+            </div>
+         </div>
+      </div>
+      <div class="sign signwt12">
+         <div class="title">
+            <img src="images/sign13.png" alt="주소록 관리 유의사항">
+         </div>
+         <div class="bottom">
+            <p>결제 시 부가세 포함 기준으로 결제를 진행합니다.</p>
+            <p> 각 결제증빙서류를 선택하시면 팝업이 뜹니다. 해당 정보를 입력하시면 됩니다.</p>
+            <p>사업자에 한하여 세금계산서 발행이 가능합니다.</p>
+            <p>세금계산서 발급을 원하는 경우는 팩스(032-561-0470)로 최초 1회만 사업자등록증 사본을 보내주세요.</p>
+         </div>
+      </div>
+      <footer id="footer" class="footer">
+         <div class="foot">
+            <div class="footleft">
+               <h3 class="logo">logo</h3>
+               <ul class="ftutil">
+                  <li><a href="">이용약관</a></li>
+                  <li><a href="">개인정보처리방침</a></li>
+                  <li><a href="">이메일주소무단수집거부</a></li>
+               </ul>
+               <p>인천서구 북항로32번안길8 4층 404호</p>
+               <ul class="for">
+                  <li>
+                     <span class="line">TEL : 032-569-5907</span> 
+                     <span>FAX : 032-561-0470</span>
+                  </li>
+                  <li>
+                     <span class="line">사업자등록번호 : 866-07-01577</span>
+                     <span>통신판매번호 : 제20200-인천서구-0234호</span>
+                  </li>
+                  <li>
+                     <span class="line">개인정보보호 책인자 : 조재민</span>
+                     <span>대표이사 : 조재민</span>
+                  </li>
+               </ul>
+            </div>
+            <div class="footright">
+               <a href="" class="kakao">카카오톡상담</a>
+               <ul>
+                  <li><span class="txt">고객센터</span><span class="num cent">032-569-5907</span><span>[365일 연중무휴 24시간 상담가능]</span></li>
+                  <li><span class="txt">은행정보</span><span class="num bankinf">1005-404-065661</span><span>우리은행/예금주 : 조재민</span></li>
+               </ul>
+            </div>
+         </div>
+      </footer>
+   </body>
+</html>

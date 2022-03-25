@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta http-equiv="imagetoolbar" content="no">
+      <title>문자쏙</title>
+      <link rel="stylesheet" href="css/layout.css">
+      <link rel="stylesheet" href="css/login.css">
+      <link rel="stylesheet" href="css/main.css">
+      <link rel="stylesheet" href="css/jquery-ui.css">
+      <link rel="stylesheet" href="css/common.css">
+      <link rel="stylesheet" href="css/content.css">
+      <link rel="stylesheet" href="css/datepicker.css">
+      <script src="js/datepicker.js" type="text/javascript"></script>
+      <script src="js/datepicker.ko-KR.js" type="text/javascript"></script>
+      <script src="http://code.jquery.com/jquery-latest.js"></script>
+      <script src="js/jQuery/jquery-ui.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        
+           $(document).ready(function() {
+         	searchPop (); //
+         	gnb (); // GNB Menu
+         	m_gnb(); // Mobile GNB Menu
+         	titleResize (); // 콘텐츠 타이틀
+         	lnbToggle (); // 토글메뉴
+         	snsPop (); // SNS 링크
+         	relateLink(); // 관련사이트
+         	relateLinkH(); // 관련사이트 상단
+         	floatingTop (); // 탑버튼
+         	boardOver (); // boardOver
+         	
+         	var winSize = $(window).height();
+         	$(".scroll_wrap").css({"height":winSize+"px"});
+         	
+         	$(window).resize(function(){
+         		titleResize (); // 콘텐츠 타이틀
+         		var winSize = $(window).height();
+         		$(".scroll_wrap").css({"height":winSize+"px"});
+         	});	
+         	
+         	$(".scroll_box_hor").mCustomScrollbar({
+         		axis:"x",
+         		advanced:{autoExpandHorizontalScroll:true}
+         	});
+         });
+         
+         function searchPop (){
+         	$(".mob_search_btn").click(function(e){
+         		e.preventDefault();
+         		$(this).toggleClass("ov");
+         		$(".total_search").fadeToggle(200).next().fadeToggle(200);	 
+         	});
+         }
+         
+         // GNB Menu
+         function gnb (){
+         	var param = $("#gnb>ul>li>a");
+         	param.th2 = param.parent().find(">ul>li>a"); 
+         	var bg = $("#header .bg");
+         
+         	var eqCnt = 0;
+         	var liCnt = 0;
+         	$("#gnb>ul>li").each(function(i){
+         		$(this).find(">ul>li").size();
+         		if(liCnt < $(this).find(">ul>li").size()){
+         			liCnt = $(this).find(">ul>li").size(); eqCnt = i;
+         		}
+         	});
+         	
+         	var gnbHei = param.parent().eq(eqCnt).find(">ul").innerHeight();
+         	param.next().css({"height":gnbHei+"px"});
+         	
+         	function _close (){
+         		param.removeClass("ov");
+         		param.next().hide().stop().animate({"opacity":0},0);
+         		bg.stop().animate({"height":0+"px","padding-bottom":0+"px"},200,function(){
+         			$(this).hide();	
+         		});	
+         	}
+         	
+         	param.bind("mouseenter focus",function(){
+         		param.removeClass("ov");
+         		$(this).addClass("ov");	
+         		param.next().show().stop().animate({"opacity":1},400);
+         		bg.show().stop().animate({"height":(gnbHei+40)+"px"},100);
+         	}); 
+         	
+         	param.th2.bind("mouseenter focus",function(){
+         		param.removeClass("ov");
+         		$(this).parent().parent().prev().addClass("ov");
+         	});	
+         	
+         	$(".gnb_wrap").bind("mouseleave",function(){
+         		_close ();
+         	});	
+         	
+         	param.parent().last().find("ul>li").last().find(">a").bind("focusout",function(){
+         		_close ();
+         	});
+         	
+         	param.parent().each(function(e){
+         		$(this).addClass("num"+(e+1));	
+         	});
+         	$(".nav .drdown").click(function(){
+                         
+             if($("#navsub").css("display")=='none'){
+                 $("#navsub").show();
+             }else{
+                 $("#navsub").hide();
+             }
+         });
+         }
+         
+      </script>
+   </head>
+   <body>
+      <dl id="skiptoContent">
+          <dd><a href="#contents" class="accessibility01">본문 바로가기</a></dd>
+          <dd><a href="#gnb_wrap" class="accessibility01">주메뉴 바로가기</a></dd>
+          <dd><a href="#footer" class="accessibility01">하단메뉴 바로가기</a></dd>
+      </dl>
+      <div id="Wrap">
+         <div id="header" class="header">
+            <div class="head">
+               <h2 class="logo">문자쏙</h2>
+               <div class="gnb_wrap">
+                  <div class="menu" id="gnb">
+                     <ul class="gnb">
+                        <li class="num1">
+                           <a href="">문자발송</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num2">
+                           <a href="">포토문자발송</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num3">
+                           <a href="">문자샘플</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num4">
+                           <a href="">대량주소록</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num5">
+                           <a href="">발송/예약내역</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num6">
+                           <a href="">결제내역</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                        <li class="num7">
+                           <a href="">고객센터</a>
+                           <ul>
+                              <li><a href="">단문문자</a></li>
+                              <li><a href="">장문문자</a></li>
+                              <li><a href="">포토문자</a></li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="bg subbg"></div>
+               <a href="" class="out">나가기</a>
+            </div>
+         </div>
+      </div>
+      <div class="info_bar">
+         <div class="infowrap">
+            <!-- 로그아웃 -->
+            <div class="infologout" style="display: none;">
+               <span>로그인을 해주세요</span>
+               <a href="" class="loginbtn">LOGIN</a>
+            </div>
+            <!-- 로그인 -->
+            <div class="infologin">
+               <div class="myinfo">
+                  <p>일반</p>
+                  <span>조재민님</span>
+                  <a href="">마이페이지</a>
+               </div>
+               <div class="mycasy">
+                  <p>보유캐쉬 : <em>9,343</em><span>CASH</span></p>
+                  <a href="" class="casyca">충전</a>
+                  <a href="" class="casybr">결제내역</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="navbar">
+         <div class="nav">
+            <ul>
+               <li><a href="" class="home">home</a></li>
+               <li><a href="">마이페이지</a></li>
+               <li class="drdown">
+                  <span>회원정보수정</span>
+                  <ul id="navsub" style="display:none;">
+                     <li><a href="">회원정보관리</a></li>
+                     <li><a href="">회원정보관리</a></li>
+                     <li><a href="">회원정보관리</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <div id="contents" class="joinwrap widthmax">
+         <h2>이용요금 안내</h2>
+         <div class="info_img">
+            <img src="images/info_img1.png" alt="보편형문자 sms 90byte 이하의 문자를
+               간편하게 전송하는 보편적인 문자 서비스 (광고) 이름 00치과 검사결과안내. 
+               000님 치아 검사 결과 정상입니다. 00치과 무료거부 0808551655">
+            <img src="images/info_img2.png" alt="장문형 문자 LMS 180 ~ 2,000byte 이하의 문자를 전송하는 서비스 (광고) 이름 ★시장은 2월까지
+               초호황★  지금 챙겨둬야  조정장을  버틸 수 있습니다. 실 계좌수익률 20% 목표실현 무료거부 0808551655">
+            <img src="images/info_img3.png" alt="이미지 문자 MMS 2,000byte 이하의 문자, 이미지를 포함한 문자 발송 서비스 (광고) 조재민 00치과  무료거부 0808551655">
+         </div>
+         <div class="info_box">
+            <h1>일반<span class="tits01">C</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col widht="auto">
+                  <col width="auto">
+                  <col widht="auto">
+                  <col width="auto">
+                  <col widht="auto">
+                  <col width="5%">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th>결제금액(VAT포함)</th>
+                     <th>11,000</th>
+                     <th>22,000</th>
+                     <th>55,000</th>
+                     <th>110,000</th>
+                     <th>220,000</th>
+                     <th class="right">발송단가</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th>SMS</th>
+                     <td>1,123</td>
+                     <td>2,247</td>
+                     <td>5,617</td>
+                     <td>11,235</td>
+                     <td>22,471</td>
+                     <td class="right">8.90</td>
+                  </tr>
+                  <tr>
+                     <th>LMS</th>
+                     <td>401</td>
+                     <td>803</td>
+                     <td>2,008</td>
+                     <td>4,016</td>
+                     <td>8,032</td>
+                     <td class="right">24.90</td>
+                  </tr>
+                  <tr>
+                     <th>MMS</th>
+                     <td>50</td>
+                     <td>100</td>
+                     <td>250</td>
+                     <td>500</td>
+                     <td>1,000</td>
+                     <td class="right">200.000</td>
+                  </tr>
+                  <tr>
+                     <th>충전캐시</th>
+                     <td>10,000</td>
+                     <td>20,000</td>
+                     <td>50,000</td>
+                     <td>100,000</td>
+                     <td>200,000</td>
+                     <td></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>실버<span class="tits02">S</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col width="19%">
+                  <col widht="19%">
+                  <col width="19%">
+                  <col widht="10%">
+                  <col width="8%">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th>결제금액(VAT포함)</th>
+                     <th>11,000</th>
+                     <th>55,000</th>
+                     <th>110,000</th>
+                     <th>220,000</th>
+                     <th class="right">발송단가</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th>SMS</th>
+                     <td>854</td>
+                     <td>4,273</td>
+                     <td>8,547</td>
+                     <td>17,094</td>
+                     <td class="right">11.70</td>
+                  </tr>
+                  <tr>
+                     <th>LMS</th>
+                     <td>370</td>
+                     <td>1,851</td>
+                     <td>3,703</td>
+                     <td>7,409</td>
+                     <td class="right">27.00</td>
+                  </tr>
+                  <tr>
+                     <th>MMS</th>
+                     <td>125</td>
+                     <td>625</td>
+                     <td>1,250</td>
+                     <td>2,500</td>
+                     <td class="right"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>골드<span class="tits03">G</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col widht="20%">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col width="auto">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>결제금액(VAT포함)</th>
+                     <th>SMS</th>
+                     <th>LMS</th>
+                     <th>MMS</th>
+                     <th class="right">충전캐시</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th></th>
+                     <td>100,000</td>
+                     <td>7,500</td>
+                     <td>2,571</td>
+                     <td>545</td>
+                     <td class="right">90,000</td>
+                  </tr>
+                  <tr>
+                     <th>발송단가</th>
+                     <td></td>
+                     <td>12.00</td>
+                     <td>35,00</td>
+                     <td>165.00</td>
+                     <td class="right"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>플래티넘<span class="tits04">P</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col widht="20%">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col width="auto">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>결제금액(VAT포함)</th>
+                     <th>SMS</th>
+                     <th>LMS</th>
+                     <th>MMS</th>
+                     <th class="right">충전캐시</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th></th>
+                     <td>110,000</td>
+                     <td>1,000</td>
+                     <td>333</td>
+                     <td>125</td>
+                     <td class="right">10,000</td>
+                  </tr>
+                  <tr>
+                     <th>발송단가</th>
+                     <td></td>
+                     <td>10.00</td>
+                     <td>30,00</td>
+                     <td>80.00</td>
+                     <td class="right"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>VIP<span class="tits05">V</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col widht="auto">
+                  <col width="auto">
+                  <col widht="auto">
+                  <col width="auto">
+                  <col widht="auto">
+                  <col widht="auto">
+                  <col width="5%">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th>결제금액(VAT포함)</th>
+                     <th>11,000</th>
+                     <th>110,000</th>
+                     <th>550,000</th>
+                     <th>1,100,000</th>
+                     <th>2,200,000</th>
+                     <th>5,500,000</th>
+                     <th class="right">발송단가</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th>SMS</th>
+                     <td>740</td>
+                     <td>7,407</td>
+                     <td>37,037</td>
+                     <td>74,074</td>
+                     <td>148,148</td>
+                     <td>370,370</td>
+                     <td class="right">13.50</td>
+                  </tr>
+                  <tr>
+                     <th>LMS</th>
+                     <td>250</td>
+                     <td>2,500</td>
+                     <td>12,500</td>
+                     <td>25,000</td>
+                     <td>50,000</td>
+                     <td>125,000</td>
+                     <td class="right">40.00</td>
+                  </tr>
+                  <tr>
+                     <th>MMS</th>
+                     <td>100</td>
+                     <td>1,000</td>
+                     <td>5,000</td>
+                     <td>10,000</td>
+                     <td>20,000</td>
+                     <td>50,000</td>
+                     <td class="right">100.000</td>
+                  </tr>
+                  <tr>
+                     <th>충전캐시</th>
+                     <td>10,000</td>
+                     <td>100,000</td>
+                     <td>500,000</td>
+                     <td>1,000,000</td>
+                     <td>2,000,000</td>
+                     <td>5,000,000</td>
+                     <td></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>플래티넘<span class="tits06">V</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col widht="20%">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col width="auto">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>결제금액(VAT포함)</th>
+                     <th>SMS</th>
+                     <th>LMS</th>
+                     <th>MMS</th>
+                     <th class="right">충전캐시</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th></th>
+                     <td>11,000</td>
+                     <td>769</td>
+                     <td>222</td>
+                     <td>66</td>
+                     <td class="right">10,000</td>
+                  </tr>
+                  <tr>
+                     <th>발송단가</th>
+                     <td></td>
+                     <td>13.00</td>
+                     <td>45,00</td>
+                     <td>150.00</td>
+                     <td class="right"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="info_box">
+            <h1>플래티넘<span class="tits07">S</span></h1>
+            <table class="tbl_info">
+               <caption>결제금액(VAT포함), SMS, LMS, MMS, 충전캐시</caption>
+               <colgroup>
+                  <col width="20%">
+                  <col style="width:294px;">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col style="width:150px;">
+                  <col width="auto">
+               </colgroup>
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>결제금액(VAT포함)</th>
+                     <th>SMS</th>
+                     <th>LMS</th>
+                     <th>MMS</th>
+                     <th class="right">충전캐시</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <th></th>
+                     <td>110,000</td>
+                     <td>5,882</td>
+                     <td>1,666</td>
+                     <td>500</td>
+                     <td class="right">100,000</td>
+                  </tr>
+                  <tr>
+                     <th></th>
+                     <td>1,100,000</td>
+                     <td>64,705</td>
+                     <td>18,333</td>
+                     <td>5,500</td>
+                     <td class="right">1,100,000</td>
+                  </tr>
+                  <tr>
+                     <th>발송단가</th>
+                     <td></td>
+                     <td>17.00</td>
+                     <td>60,00</td>
+                     <td>200.00</td>
+                     <td class="right"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      </div>
+      <div class="sign signwt12">
+         <div class="title">
+            <img src="images/sign12.png" alt="이용요금안내 유의사항">
+         </div>
+         <div class="bottom">
+            <p>회원등급에 따라 이용요금이 달라집니다.</p>
+            <p> 결제 금액에 따른 회원등급은 누적된 총 결제 금액에 따라 자동으로 승급됩니다.</p>
+            <p> 기타 대량문자 발송 문의는 고객센터로 문의주시기 바랍니다</p>
+         </div>
+      </div>
+      <footer id="footer" class="footer">
+         <div class="foot">
+            <div class="footleft">
+               <h3 class="logo">logo</h3>
+               <ul class="ftutil">
+                  <li><a href="">이용약관</a></li>
+                  <li><a href="">개인정보처리방침</a></li>
+                  <li><a href="">이메일주소무단수집거부</a></li>
+               </ul>
+               <p>인천서구 북항로32번안길8 4층 404호</p>
+               <ul class="for">
+                  <li>
+                     <span class="line">TEL : 032-569-5907</span> 
+                     <span>FAX : 032-561-0470</span>
+                  </li>
+                  <li>
+                     <span class="line">사업자등록번호 : 866-07-01577</span>
+                     <span>통신판매번호 : 제20200-인천서구-0234호</span>
+                  </li>
+                  <li>
+                     <span class="line">개인정보보호 책인자 : 조재민</span>
+                     <span>대표이사 : 조재민</span>
+                  </li>
+               </ul>
+            </div>
+            <div class="footright">
+               <a href="" class="kakao">카카오톡상담</a>
+               <ul>
+                  <li><span class="txt">고객센터</span><span class="num cent">032-569-5907</span><span>[365일 연중무휴 24시간 상담가능]</span></li>
+                  <li><span class="txt">은행정보</span><span class="num bankinf">1005-404-065661</span><span>우리은행/예금주 : 조재민</span></li>
+               </ul>
+            </div>
+         </div>
+      </footer>
+   </body>
+</html>
